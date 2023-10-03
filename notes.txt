@@ -1,0 +1,42 @@
+
+if mac:
+#define _DARWIN_C_SOURCE 1
+
+enable_socket
+	for lib in '-lxnet' '-lsocket' '-lnsl' '-lsocket -lnsl'
+#define YASH_ENABLE_SOCKET 1
+
+enable_nls
+
+	defconfigh "HAVE_NGETTEXT"
+	defconfigh "HAVE_GETTEXT"
+#include <libintl.h>
+
+enable_lineedit
+    for i in curses.h:CURSES_H ncurses.h:NCURSES_H \
+	ncurses/ncurses.h:NCURSES_NCURSES_H \
+	ncursesw/ncurses.h:NCURSESW_NCURSES_H
+	    defconfigh "HAVE_${i#*:}"
+	defconfigh "YASH_ENABLE_LINEEDIT"
+
+
+1141:#if HAVE_PROC_SELF_EXE
+1143:#elif HAVE_PROC_CURPROC_FILE
+1145:#elif HAVE_PROC_OBJECT_AOUT
+
+    defconfigh "HAVE_STRNLEN"
+    defconfigh "HAVE_STRDUP"
+    defconfigh "HAVE_WCSNLEN"
+    defconfigh "HAVE_WCSNRTOMBS"
+    defconfigh "HAVE_WCSTOLD"
+    defconfigh "HAVE_WCWIDTH"
+    defconfigh "HAVE_S_ISVTX"
+    defconfigh "UNSETENV_RETURNS_INT"
+	defconfigh "HAVE_ST_ATIM"
+	defconfigh "HAVE_ST_ATIMESPEC"
+	defconfigh "HAVE_ST_ATIMENSEC"
+	defconfigh "HAVE___ST_ATIMENSEC"
+    defconfigh "HAVE_ST_MTIM"
+    defconfigh "HAVE_ST_MTIMESPEC"
+    defconfigh "HAVE_ST_MTIMENSEC"
+    defconfigh "HAVE___ST_MTIMENSEC"
