@@ -91,10 +91,14 @@ cp \
       lineedit/lineedit.c \
       lineedit/terminfo.c \
       lineedit/trie.c \
-      lineedit/commands.in \
       lineedit/*.h \
   $DST/lineedit/
 
+# TODO: once lineedit is enabled
+# cp lineedit/commands.in $DST/lineedit/
+
 popd
+
+rm $DST/signum.h $DST/config.h
 
 echo "yash sources updated"

@@ -5,6 +5,15 @@ pub fn build(b: *std.Build) !void {
     var optimize = b.standardOptimizeOption(.{});
     const strip = b.option(bool, "strip", "Omit debug information") orelse true;
 
+    const arch_path = blk: {
+        if (target.os_tag) |os| {
+            if (os.isDarwin()) break :blk "macos";
+        } else {
+            if (@import("builtin").os.tag.isDarwin()) break :blk "macos";
+        }
+        break :blk "linux";
+    };
+
     const exe = b.addExecutable(.{
         .name = "yash",
         .target = target,
@@ -13,6 +22,7 @@ pub fn build(b: *std.Build) !void {
     exe.strip = strip;
     exe.addCSourceFiles(&srcs, &[_][]const u8{});
     exe.addIncludePath(.{ .path = "yash" });
+    exe.addIncludePath(.{ .path = "arch/" ++ arch_path });
     exe.addIncludePath(.{ .path = "yash/builtins" });
     exe.linkLibC();
 
@@ -33,43 +43,43 @@ pub fn build(b: *std.Build) !void {
     runstep.dependOn(&run.step);
 }
 
-const srcs = [_][]const u8 {
-      "yash/alias.c",
-      "yash/arith.c",
-      "yash/builtin.c",
-      "yash/exec.c",
-      "yash/expand.c",
-      "yash/hashtable.c",
-      "yash/history.c",
-      "yash/input.c",
-      "yash/job.c",
-      "yash/mail.c",
-      "yash/option.c",
-      "yash/parser.c",
-      "yash/path.c",
-      "yash/plist.c",
-      "yash/redir.c",
-      "yash/sig.c",
-      "yash/strbuf.c",
-      "yash/util.c",
-      "yash/variable.c",
-      "yash/xfnmatch.c",
-      "yash/xgetopt.c",
-      "yash/yash.c",
-      "yash/builtins/printf.c",
-      "yash/builtins/test.c",
-      "yash/builtins/ulimit.c",
+const srcs = [_][]const u8{
+    "yash/alias.c",
+    "yash/arith.c",
+    "yash/builtin.c",
+    "yash/exec.c",
+    "yash/expand.c",
+    "yash/hashtable.c",
+    "yash/history.c",
+    "yash/input.c",
+    "yash/job.c",
+    "yash/mail.c",
+    "yash/option.c",
+    "yash/parser.c",
+    "yash/path.c",
+    "yash/plist.c",
+    "yash/redir.c",
+    "yash/sig.c",
+    "yash/strbuf.c",
+    "yash/util.c",
+    "yash/variable.c",
+    "yash/xfnmatch.c",
+    "yash/xgetopt.c",
+    "yash/yash.c",
+    "yash/builtins/printf.c",
+    "yash/builtins/test.c",
+    "yash/builtins/ulimit.c",
 };
 
-const lineedit_srcs = [_][]const u8 {
-      "yash/lineedit/complete.c",
-      "yash/lineedit/compparse.c",
-      "yash/lineedit/display.c",
-      "yash/lineedit/editing.c",
-      "yash/lineedit/keymap.c",
-      "yash/lineedit/lineedit.c",
-      "yash/lineedit/terminfo.c",
-      "yash/lineedit/trie.c",
+const lineedit_srcs = [_][]const u8{
+    "yash/lineedit/complete.c",
+    "yash/lineedit/compparse.c",
+    "yash/lineedit/display.c",
+    "yash/lineedit/editing.c",
+    "yash/lineedit/keymap.c",
+    "yash/lineedit/lineedit.c",
+    "yash/lineedit/terminfo.c",
+    "yash/lineedit/trie.c",
 };
 
 // TODO: Add options for config.h values

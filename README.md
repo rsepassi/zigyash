@@ -16,8 +16,7 @@ Note that the yash code here is redistributed unmodified and is licensed under
 GPLv2. See yash/COPYING.
 
 Todo:
-* Improve cross-compilation by:
-  * Allowing specifying all `config.h` members
-  * Porting the auto-detection in `configure` to `build.zig`
+* Improve cross-compilation. `config.h` and `signum.h` change per architecture.
+  Currently I've just put copies of those files in `arch/` for MacOS and Linux.
 * Enable lineedit and history
 * Enable nls
